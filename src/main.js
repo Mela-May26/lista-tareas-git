@@ -3,24 +3,85 @@ import './style.css';
 
 const app = document.querySelector('#app');
 
-app.innerHTML = `
-<main class="container py-5">
-    <section class="mx-auto" style="max-width: 600px;">
-        <h1 class="mb-2">
-            Lista de tareas
-        </h1>
+//Arreglo donde se guardan las tareas
+const tasks = [];
 
-        <p class="text-secondary mb-4">
-            Laboratorio de Git y Github
-        </p>
+/*
+    Funcion para renderizar
+    la interfaz inicial
+ */
 
-        <div class="card">
-            <div class="card-body">
-                <p class="mb-0">
-                    La aplicación está funcionando correctamente
-                </p>
+function renderApp() {
+    app.innerHTML = `
+    <main class="container py-5">
+        <section class="mx-auto" style="max-width: 600px;">
+            <h1 class="mb-2">
+                Lista de tareas
+            </h1>
+
+            <p class="text-secondary mb-4">
+                Laboratorio de Git y Github
+            </p>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <label for="taskInput" class="form-label">
+                        Nueva tarea
+                    </label>
+                    <input type="text" class="form-control mb-3" id="taskInput" placeholder="Ejemplo: descongelar refri">
+                    <button type="button" class="btn btn-primary w-100" id="btnAddTask">
+                        Agregar tarea
+                    </button>
+                </div>
             </div>
-        </div>
-    </section>
-</main>
-`
+            <ul class="list-group" id="taskList">
+            </ul>
+        </section>
+    </main>
+`;
+
+    //Referencias a los elementos HTML
+    const taskInput = document.querySelector('#taskInput');
+    const btnAddTask = document.querySelector('#btnAddTask');
+
+    //Escuchar al boton
+    btnAddTask.addEventListener('click', () => {
+        //Eliminar los espacios del texto ingresado
+        const taskText = taskInput.value.trim();
+
+        //Validar que el texto de la tarea no esté vacio
+        if (!taskText) {
+            return;
+        }
+
+        //Agregar la tarea al arreglo
+        tasks.push(taskText);
+
+        //Limpiar el input
+        taskInput.value = '';
+
+        //Actualizar la lista HTML
+        renderTasks();
+    });
+
+    //Mostrar las tareas existentes
+    renderTasks();
+}
+
+/*
+  Funcion para renderizar 
+  las tareas guardadas
+*/
+
+function renderTasks() {
+    const taskList = document.querySelector('#taskList');
+
+    taskList.innerHTML = tasks.map((task) => `
+    <li class="list-group-item">
+        ${task}
+    </li>
+    `).join('');
+}
+
+//Ejecutar la primera renderizacion
+renderApp();
