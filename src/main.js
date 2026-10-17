@@ -34,6 +34,11 @@ function renderApp() {
                     </button>
                 </div>
             </div>
+
+            <div class="alert alert-secondary" id="taskCounter">
+                Total tareas: 0
+            </div>
+
             <ul class="list-group" id="taskList">
             </ul>
         </section>
@@ -74,13 +79,20 @@ function renderApp() {
 */
 
 function renderTasks() {
+    
+    //Obtener la lista de tareas
     const taskList = document.querySelector('#taskList');
-
+    
     taskList.innerHTML = tasks.map((task) => `
     <li class="list-group-item">
         ${task}
     </li>
     `).join('');
+
+    //Obtener el elemento que muestra el contador y mostrar la cantidad de tareas
+    const taskCounter = document.querySelector('#taskCounter');
+
+    taskCounter.textContent = `Total de tareas: ${tasks.length}`;
 }
 
 //Ejecutar la primera renderizacion
